@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Vynil Warrior</string>
+    <string name="placeholder_search">Search</string>
 </resources>
