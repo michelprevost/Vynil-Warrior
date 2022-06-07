@@ -30,7 +30,8 @@ fun SearchBar(
             Icon(imageVector = Icons.Default.Search, contentDescription = null)
         },
         colors = TextFieldDefaults.textFieldColors(
-            backgroundColor = MaterialTheme.colors.surface
+            backgroundColor = MaterialTheme.colors.surface,
+            textColor = contentColorFor(backgroundColor = MaterialTheme.colors.surface)
         ),
         placeholder = {
             Text(stringResource(placeholderTextId))
