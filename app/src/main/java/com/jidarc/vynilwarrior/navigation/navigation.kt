@@ -1,14 +1,12 @@
 package com.jidarc.vynilwarrior.navigation
 
 import androidx.compose.runtime.Composable
-import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import androidx.navigation.navArgument
 import com.jidarc.vynilwarrior.screens.SplashScreen
 import com.jidarc.vynilwarrior.screens.home.HomeScreen
-import com.jidarc.vynilwarrior.screens.searchresults.SearchResultsScreen
+import com.jidarc.vynilwarrior.screens.searchresults.SearchScreen
 
 @Composable
 fun VWNavigation() {
@@ -24,16 +22,8 @@ fun VWNavigation() {
             HomeScreen(navController = navController)
         }
 
-        composable(
-            route = "${VWScreens.SearchResults.name}/{query}",
-            arguments = listOf(navArgument(name = "query") {
-                type = NavType.StringType
-            })
-        ) {
-            SearchResultsScreen(
-                navController = navController,
-                searchQuery = it.arguments?.getString("query")!!
-            )
+        composable(route = VWScreens.Search.name) {
+            SearchScreen(navController = navController)
         }
 
     }

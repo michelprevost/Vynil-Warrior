@@ -10,12 +10,10 @@
         android:icon="@drawable/ic_vinyl_record"
         android:label="@string/app_name"
         android:roundIcon="@drawable/ic_vinyl_record"
-        android:supportsRtl="true"
-        android:theme="@style/Theme.VynilWarrior">
+        android:supportsRtl="true">
         <activity
             android:name=".MainActivity"
-            android:exported="true"
-            android:theme="@style/Theme.VynilWarrior">
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
