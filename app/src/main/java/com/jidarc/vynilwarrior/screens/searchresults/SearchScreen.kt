@@ -28,7 +28,7 @@ import coil.compose.rememberImagePainter
 import com.jidarc.vynilwarrior.R
 import com.jidarc.vynilwarrior.components.InputField
 import com.jidarc.vynilwarrior.components.VWAppBar
-import com.jidarc.vynilwarrior.models.Result
+import com.jidarc.vynilwarrior.models.searchresults.Result
 import com.jidarc.vynilwarrior.navigation.VWScreens
 
 @OptIn(ExperimentalComposeUiApi::class)

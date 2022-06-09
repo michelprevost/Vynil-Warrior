@@ -5,15 +5,15 @@ import androidx.compose.runtime.mutableStateListOf
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.jidarc.vynilwarrior.data.repositories.DiscogRepository
-import com.jidarc.vynilwarrior.models.Pagination
-import com.jidarc.vynilwarrior.models.Result
+import com.jidarc.vynilwarrior.data.repositories.DiscogsRepository
+import com.jidarc.vynilwarrior.models.searchresults.Pagination
+import com.jidarc.vynilwarrior.models.searchresults.Result
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class SearchResultsViewModel @Inject constructor(private val repository: DiscogRepository) :
+class SearchResultsViewModel @Inject constructor(private val repository: DiscogsRepository) :
     ViewModel() {
 
     var resultsList = mutableStateListOf<Result>()

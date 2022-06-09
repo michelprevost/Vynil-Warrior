@@ -1,7 +1,7 @@
 package com.jidarc.vynilwarrior.di
 
 import com.jidarc.vynilwarrior.data.network.DiscogsApi
-import com.jidarc.vynilwarrior.data.repositories.DiscogRepository
+import com.jidarc.vynilwarrior.data.repositories.DiscogsRepository
 import com.jidarc.vynilwarrior.utils.Constants
 import dagger.Module
 import dagger.Provides
@@ -28,6 +28,6 @@ object DiscogsModule {
 
     @Singleton
     @Provides
-    fun provideBookRepository(api: DiscogsApi) = DiscogRepository(api)
+    fun provideBookRepository(api: DiscogsApi) = DiscogsRepository(api)
 
 }

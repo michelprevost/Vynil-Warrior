@@ -1,4 +1,4 @@
-package com.jidarc.vynilwarrior.models
+package com.jidarc.vynilwarrior.models.searchresults
 
 
 import com.google.gson.annotations.SerializedName
