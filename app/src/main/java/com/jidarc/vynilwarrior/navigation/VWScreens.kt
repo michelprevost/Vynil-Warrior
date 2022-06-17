@@ -4,6 +4,7 @@ enum class VWScreens {
 
     Splash,
     Home,
-    Search
+    Search,
+    Details
 
 }

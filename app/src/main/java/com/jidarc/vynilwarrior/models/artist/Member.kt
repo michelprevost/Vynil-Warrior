@@ -8,7 +8,7 @@ data class Member(
     var active: Boolean? = null,
     @SerializedName("id")
     var id: Int? = null,
-    @SerializedName("uri")
+    @SerializedName("name")
     var name: String? = null,
     @SerializedName("resource_url")
     var resourceUrl: String? = null,

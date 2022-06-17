@@ -1,6 +1,7 @@
 package com.jidarc.vynilwarrior.screens.searchresults
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -27,9 +28,11 @@ import androidx.navigation.NavController
 import coil.compose.rememberImagePainter
 import com.jidarc.vynilwarrior.R
 import com.jidarc.vynilwarrior.components.InputField
+import com.jidarc.vynilwarrior.components.ShimmeringRow
 import com.jidarc.vynilwarrior.components.VWAppBar
 import com.jidarc.vynilwarrior.models.searchresults.Result
 import com.jidarc.vynilwarrior.navigation.VWScreens
+import com.jidarc.vynilwarrior.utils.NetworkResult
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Preview(showBackground = true)
@@ -49,40 +52,60 @@ fun SearchScreen(
         }
     }) {
         Surface {
-            Column {
+            Column(modifier = Modifier.padding(20.dp)) {
+                val searchCalled = remember { mutableStateOf(false) }
                 SearchForm(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(16.dp)
                 ) { searchQuery ->
                     searchResultsViewModel.searchDiscogs(query = searchQuery)
+                    searchCalled.value = true
                 }
                 Spacer(modifier = Modifier.height(13.dp))
-                ResultsList(navController = navController)
+                ResultsList(searchCalled = searchCalled.value) { type, id ->
+                    navController.navigate("${VWScreens.Details.name}/$type/$id")
+                }
             }
         }
     }
 }
 
 @Composable
-fun ResultsList(navController: NavController, viewModel: SearchResultsViewModel = hiltViewModel()) {
+fun ResultsList(
+    modifier: Modifier = Modifier,
+    searchCalled: Boolean = false,
+    viewModel: SearchResultsViewModel = hiltViewModel(),
+    onRowClick: (String, Int) -> Unit = { _, _ -> }
+) {
+    val errorMessage = viewModel.searchResponse.value.message
+    val searchResultList = viewModel.searchResponse.value.data
 
-    LazyColumn(modifier = Modifier.fillMaxSize(), contentPadding = PaddingValues(16.dp)) {
-        items(items = viewModel.resultsList) { result ->
-            ResultRow(result = result, navController = navController)
+    if (viewModel.searchResponse.value is NetworkResult.Loading && searchCalled) {
+        Column(modifier = modifier.padding(16.dp)) {
+            ShimmeringRow(modifier)
+            ShimmeringRow(modifier)
+            ShimmeringRow(modifier)
+        }
+    } else if (viewModel.searchResponse.value is NetworkResult.Error) {
+        SearchErrorMessage(modifier, errorMessage!!)
+    } else if (viewModel.searchResponse.value is NetworkResult.Success && searchResultList != null) {
+        LazyColumn(modifier = Modifier.fillMaxSize(), contentPadding = PaddingValues(16.dp)) {
+            items(items = searchResultList) { result ->
+                ResultRow(result = result, onRowClick = onRowClick)
+            }
         }
     }
 }
 
 @Composable
-fun ResultRow(result: Result, navController: NavController) {
+fun ResultRow(result: Result, onRowClick: (String, Int) -> Unit = { _, _ -> }) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
             .height(100.dp)
-            .height(100.dp)
             .padding(3.dp)
-            .clickable { /* TODO: go to details screen */ },
+            .clickable { onRowClick(result.type, result.id) },
         shape = MaterialTheme.shapes.large,
         elevation = 7.dp
     ) {
@@ -142,5 +165,19 @@ fun SearchForm(
                 keyboardController?.hide()
             })
 
+    }
+}
+
+@Composable
+fun SearchErrorMessage(modifier: Modifier = Modifier, message: String) {
+    Box(
+        modifier = modifier
+            .background(MaterialTheme.colors.error)
+            .fillMaxWidth()
+            .height(100.dp)
+            .padding(16.dp),
+        contentAlignment = Alignment.Center
+    ) {
+        Text(text = message, color = contentColorFor(backgroundColor = MaterialTheme.colors.error))
     }
 }

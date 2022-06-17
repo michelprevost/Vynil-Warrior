@@ -1,7 +1,9 @@
 package com.jidarc.vynilwarrior.components
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.text.ClickableText
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
@@ -15,13 +17,18 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalUriHandler
+import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.valentinilk.shimmer.shimmer
 
 @Composable
 fun VWAppBar(
@@ -100,4 +107,73 @@ fun InputField(
         keyboardOptions = KeyboardOptions(keyboardType = keyboardType, imeAction = imeAction),
         keyboardActions = onAction
     )
+}
+
+@Composable
+fun ShimmeringRow(modifier: Modifier = Modifier) {
+    val shimmeringItemsModifier = modifier.background(Color.LightGray)
+    Row(
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(3.dp)
+            .shimmer()
+    ) {
+
+        Box(
+            modifier = shimmeringItemsModifier
+                .width(100.dp)
+                .height(100.dp)
+        )
+
+        Spacer(modifier = modifier.width(16.dp))
+
+        Column(verticalArrangement = Arrangement.Top) {
+            Box(
+                modifier = shimmeringItemsModifier
+                    .width(150.dp)
+                    .height(20.dp)
+            )
+            Spacer(modifier = modifier.height(16.dp))
+            Box(
+                modifier = shimmeringItemsModifier
+                    .width(100.dp)
+                    .height(10.dp)
+            )
+        }
+    }
+}
+
+@Composable
+fun HyperLink(text: String, url: String, modifier: Modifier = Modifier) {
+    val hyperlink = buildAnnotatedString {
+        val startIndex = 0
+        val endIndex = startIndex + text.length
+
+        append(text)
+
+        addStyle(
+            style = SpanStyle(color = Color.Blue, textDecoration = TextDecoration.Underline),
+            start = startIndex,
+            end = endIndex
+        )
+
+        addStringAnnotation(tag = "URL", annotation = url, start = startIndex, end = endIndex)
+    }
+
+    val urlHandler = LocalUriHandler.current
+
+    ClickableText(
+        text = hyperlink,
+        modifier = modifier,
+        onClick = {
+            hyperlink.getStringAnnotations("URL", it, it).firstOrNull()
+                ?.let { hyperLinkString ->
+                    urlHandler.openUri(hyperLinkString.item)
+                }
+        })
+}
+
+@Composable
+fun SectionTitleText(title: String, modifier: Modifier = Modifier) {
+    Text(text = title, style = MaterialTheme.typography.h6)
 }
