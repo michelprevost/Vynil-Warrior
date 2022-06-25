@@ -6,9 +6,9 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.ClickableText
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Alignment
@@ -27,7 +27,6 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.navigation.NavController
 import com.valentinilk.shimmer.shimmer
 
 @Composable
@@ -35,10 +34,9 @@ fun VWAppBar(
     title: String,
     icon: ImageVector? = null,
     showProfile: Boolean = true,
-    navController: NavController,
     onBackArrowClicked: () -> Unit = {}
 ) {
-    TopAppBar(
+    CenterAlignedTopAppBar(
         title = {
             Row(verticalAlignment = Alignment.CenterVertically) {
                 if (showProfile) {
@@ -73,9 +71,7 @@ fun VWAppBar(
             }) {
                 // TODO perform logout
             }
-        },
-        backgroundColor = Color.Transparent,
-        elevation = 0.dp
+        }
     )
 }
 
@@ -98,7 +94,7 @@ fun InputField(
         singleLine = isSingleLine,
         textStyle = TextStyle(
             fontSize = 18.sp,
-            color = MaterialTheme.colors.onBackground
+            color = MaterialTheme.colorScheme.onBackground
         ),
         modifier = modifier
             .padding(bottom = 10.dp, start = 10.dp, end = 10.dp)
@@ -175,5 +171,5 @@ fun HyperLink(text: String, url: String, modifier: Modifier = Modifier) {
 
 @Composable
 fun SectionTitleText(title: String, modifier: Modifier = Modifier) {
-    Text(text = title, style = MaterialTheme.typography.h6)
+    Text(text = title, modifier = modifier, style = MaterialTheme.typography.titleSmall)
 }

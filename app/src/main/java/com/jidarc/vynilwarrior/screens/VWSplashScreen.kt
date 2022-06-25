@@ -4,9 +4,9 @@ import android.view.animation.OvershootInterpolator
 import androidx.compose.animation.core.*
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Surface
-import androidx.compose.material.Text
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -22,13 +22,13 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.jidarc.vynilwarrior.R
 import com.jidarc.vynilwarrior.navigation.VWScreens
-import com.jidarc.vynilwarrior.ui.theme.SplashScreenTheme
+import com.jidarc.vynilwarrior.ui.theme.VynilWarriorTheme
 import kotlinx.coroutines.delay
 
 @Preview(showBackground = true)
 @Composable
 fun SplashScreen(navController: NavController = NavController(LocalContext.current)) {
-    SplashScreenTheme {
+    VynilWarriorTheme() {
 
         val scale = remember {
             Animatable(0f)
@@ -67,7 +67,11 @@ fun SplashScreen(navController: NavController = NavController(LocalContext.curre
 @Composable
 fun SplashScreenAnimatedText(modifier: Modifier = Modifier) {
     // TODO; Animate this text
-    Text(text = "Vynil Warrior", modifier = modifier, style = MaterialTheme.typography.h2)
+    Text(
+        text = "Vynil Warrior",
+        modifier = modifier,
+        style = MaterialTheme.typography.headlineLarge
+    )
 }
 
 @Composable

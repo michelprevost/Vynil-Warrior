@@ -1,10 +1,12 @@
 package com.jidarc.vynilwarrior.screens.details
 
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material.Scaffold
-import androidx.compose.material.Surface
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.capitalize
@@ -17,6 +19,7 @@ import com.jidarc.vynilwarrior.screens.details.subscreens.LabelInfo
 import com.jidarc.vynilwarrior.screens.details.subscreens.MasterInfo
 import com.jidarc.vynilwarrior.screens.details.subscreens.ReleaseInfo
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DetailsScreen(
     type: String,
@@ -29,14 +32,15 @@ fun DetailsScreen(
     Scaffold(topBar = {
         VWAppBar(
             title = title,
-            navController = navController,
             icon = Icons.Default.ArrowBack,
             showProfile = false
         ) {
             navController.popBackStack()
         }
-    }) {
-        Surface(modifier = Modifier.fillMaxSize()) {
+    }) { paddingValues ->
+        Surface(modifier = Modifier
+            .fillMaxSize()
+            .padding(paddingValues)) {
             when (type) {
                 "artist" -> {
                     viewModel.getArtist(id)

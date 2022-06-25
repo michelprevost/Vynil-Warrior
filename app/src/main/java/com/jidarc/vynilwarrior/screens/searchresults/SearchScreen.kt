@@ -7,9 +7,9 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.text.KeyboardActions
-import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -34,7 +34,7 @@ import com.jidarc.vynilwarrior.models.searchresults.Result
 import com.jidarc.vynilwarrior.navigation.VWScreens
 import com.jidarc.vynilwarrior.utils.NetworkResult
 
-@OptIn(ExperimentalComposeUiApi::class)
+@OptIn(ExperimentalComposeUiApi::class, ExperimentalMaterial3Api::class)
 @Preview(showBackground = true)
 @Composable
 fun SearchScreen(
@@ -44,15 +44,18 @@ fun SearchScreen(
     Scaffold(topBar = {
         VWAppBar(
             title = "Search Discogs",
-            navController = navController,
             icon = Icons.Default.ArrowBack,
             showProfile = false
         ) {
             navController.navigate(VWScreens.Home.name)
         }
-    }) {
+    }) { paddingValues ->
         Surface {
-            Column(modifier = Modifier.padding(20.dp)) {
+            Column(
+                modifier = Modifier
+                    .padding(20.dp)
+                    .padding(paddingValues)
+            ) {
                 val searchCalled = remember { mutableStateOf(false) }
                 SearchForm(
                     modifier = Modifier
@@ -98,16 +101,16 @@ fun ResultsList(
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ResultRow(result: Result, onRowClick: (String, Int) -> Unit = { _, _ -> }) {
-    Card(
+    ElevatedCard(
         modifier = Modifier
             .fillMaxWidth()
             .height(100.dp)
             .padding(3.dp)
             .clickable { onRowClick(result.type, result.id) },
-        shape = MaterialTheme.shapes.large,
-        elevation = 7.dp
+        shape = MaterialTheme.shapes.large
     ) {
         Row(modifier = Modifier.padding(5.dp), verticalAlignment = Alignment.Top) {
             val imageUrl: String = result.coverImage
@@ -127,13 +130,13 @@ fun ResultRow(result: Result, onRowClick: (String, Int) -> Unit = { _, _ -> }) {
                 Text(
                     text = result.title,
                     overflow = TextOverflow.Ellipsis,
-                    style = MaterialTheme.typography.h6
+                    style = MaterialTheme.typography.titleLarge
                 )
 
                 Text(
                     text = result.type,
                     overflow = TextOverflow.Ellipsis,
-                    style = MaterialTheme.typography.caption
+                    style = MaterialTheme.typography.titleSmall
                 )
             }
         }
@@ -172,12 +175,15 @@ fun SearchForm(
 fun SearchErrorMessage(modifier: Modifier = Modifier, message: String) {
     Box(
         modifier = modifier
-            .background(MaterialTheme.colors.error)
+            .background(MaterialTheme.colorScheme.error)
             .fillMaxWidth()
             .height(100.dp)
             .padding(16.dp),
         contentAlignment = Alignment.Center
     ) {
-        Text(text = message, color = contentColorFor(backgroundColor = MaterialTheme.colors.error))
+        Text(
+            text = message,
+            color = contentColorFor(backgroundColor = MaterialTheme.colorScheme.error)
+        )
     }
 }

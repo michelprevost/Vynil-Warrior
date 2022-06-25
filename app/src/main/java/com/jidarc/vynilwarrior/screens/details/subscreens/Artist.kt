@@ -7,10 +7,7 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material.Card
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Surface
-import androidx.compose.material.Text
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -140,15 +137,15 @@ fun MembersSection(members: ArrayList<Member>, modifier: Modifier = Modifier) {
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MemberRow(member: Member, modifier: Modifier = Modifier) {
-    Card(
+    ElevatedCard(
         modifier = modifier
             .fillMaxWidth()
             .height(100.dp)
             .padding(3.dp),
-        shape = MaterialTheme.shapes.large,
-        elevation = 7.dp
+        shape = MaterialTheme.shapes.large
     ) {
         Row(modifier = modifier.padding(5.dp), verticalAlignment = Alignment.Top) {
 
@@ -168,7 +165,7 @@ fun MemberRow(member: Member, modifier: Modifier = Modifier) {
                     Text(
                         text = it,
                         overflow = TextOverflow.Ellipsis,
-                        style = MaterialTheme.typography.h6
+                        style = MaterialTheme.typography.titleSmall
                     )
                 }
 
@@ -182,6 +179,11 @@ fun MemberRow(member: Member, modifier: Modifier = Modifier) {
 fun IsActiveText(isActive: Boolean?, modifier: Modifier = Modifier) {
     val text = if (isActive == true) "Active" else "Inactive"
     val textColor = if (isActive == true) Color.Green else Color.Red
-    
-    Text(text = text, color = textColor, style = MaterialTheme.typography.caption)
+
+    Text(
+        text = text,
+        modifier = modifier,
+        color = textColor,
+        style = MaterialTheme.typography.displaySmall
+    )
 }
